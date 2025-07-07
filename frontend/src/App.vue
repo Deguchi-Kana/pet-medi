@@ -1,6 +1,12 @@
 <template>
   <div id="app">
     <h1>ペットの投薬管理アプリ</h1>
+    <nav>
+      <router-link to="/">ホーム</router-link> |
+      <router-link to="/calendar">カレンダー</router-link> |
+      <router-link to="/register">登録</router-link>
+    </nav>
+    <router-view />
   </div>
 </template>
 

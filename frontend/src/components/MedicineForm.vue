@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 max-w-md mx-auto space-y-4">
-    <form @submit.prevent="addMedicine" class="space-y-2">
+    <form @submit.prevent="submitForm" class="space-y-2">
       <div>
         <input v-model="form.name" placeholder="薬名" class="border w-full p-1" />
       </div>
@@ -44,26 +44,30 @@ import { ref } from 'vue'
 const form = ref({
   name: '',
   amount: '',
-  times: [],
+  timing: [],
   notify: false
 })
 
 const medicines = ref([])
 
-const addMedicine = () => {
-  if (!form.value.name || !form.value.amount || form.value.times.length === 0) {
-    alert('すべての項目を入力してください')
-    return
-  }
+const submitForm = async () => {
+  try {
+    const response = await fetch('http://localhost:8000/medicines', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form.value)
+    })
 
-  medicines.value.push({ ...form.value })
+    if (!response.ok) throw new Error('登録に失敗しました')
 
-  // フォームを初期化
-  form.value = {
-    name: '',
-    amount: '',
-    times: [],
-    notify: false
+    const data = await response.json()
+    console.log('登録成功:', data)
+    alert('登録が完了しました！')
+  } catch (error) {
+    console.error(error)
+    alert('登録に失敗しました')
   }
 }
 </script>

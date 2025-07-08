@@ -1,55 +1,69 @@
 <template>
-  <div class="medicine-form">
-    <h2 class="text-xl font-bold mb-4">お薬の登録</h2>
-
-    <form @submit.prevent="handleSubmit" class="space-y-4">
+  <div class="p-4 max-w-md mx-auto space-y-4">
+    <form @submit.prevent="addMedicine" class="space-y-2">
       <div>
-        <label for="name" class="block text-sm font-medium">薬名</label>
-        <input id="name" v-model="form.name" type="text" class="border rounded w-full p-2" />
+        <input v-model="form.name" placeholder="薬名" class="border w-full p-1" />
       </div>
-
       <div>
-        <label for="amount" class="block text-sm font-medium">分量</label>
-        <select id="amount" v-model="form.amount" class="border rounded w-full p-2">
-          <option value="1錠">1錠</option>
-          <option value="0.5錠">1/2錠</option>
-          <option value="1包">1包</option>
+        <select v-model="form.amount" class="border w-full p-1">
+          <option disabled value="">分量を選択</option>
+          <option>1錠</option>
+          <option>1/2錠</option>
+          <option>1包</option>
         </select>
       </div>
-
       <div>
-        <label class="block text-sm font-medium">投薬時間</label>
-        <label><input type="checkbox" value="朝" v-model="form.times" /> 朝</label>
-        <label><input type="checkbox" value="昼" v-model="form.times" /> 昼</label>
-        <label><input type="checkbox" value="夜" v-model="form.times" /> 夜</label>
+        <label><input type="checkbox" v-model="form.times" value="朝" /> 朝</label>
+        <label><input type="checkbox" v-model="form.times" value="昼" /> 昼</label>
+        <label><input type="checkbox" v-model="form.times" value="夜" /> 夜</label>
       </div>
-
       <div>
-        <label>
-          <input type="checkbox" v-model="form.notify" />
-          通知をONにする
-        </label>
+        <label><input type="checkbox" v-model="form.notify" /> 通知ON</label>
       </div>
-
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        登録
-      </button>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-1">登録</button>
     </form>
+
+    <!-- 一覧表示 -->
+    <div v-if="medicines.length > 0" class="mt-6">
+      <h2 class="text-lg font-semibold">登録済みのお薬</h2>
+      <ul class="space-y-2 mt-2">
+        <li v-for="(m, index) in medicines" :key="index" class="border p-2 rounded">
+          <div><strong>薬名:</strong> {{ m.name }}</div>
+          <div><strong>分量:</strong> {{ m.amount }}</div>
+          <div><strong>タイミング:</strong> {{ m.times.join(', ') }}</div>
+          <div><strong>通知:</strong> {{ m.notify ? 'ON' : 'OFF' }}</div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
-const form = reactive({
+const form = ref({
   name: '',
-  amount: '1錠',
+  amount: '',
   times: [],
   notify: false
 })
 
-function handleSubmit() {
-  console.log('登録内容:', form)
-  alert('仮登録完了！開発中✨')
+const medicines = ref([])
+
+const addMedicine = () => {
+  if (!form.value.name || !form.value.amount || form.value.times.length === 0) {
+    alert('すべての項目を入力してください')
+    return
+  }
+
+  medicines.value.push({ ...form.value })
+
+  // フォームを初期化
+  form.value = {
+    name: '',
+    amount: '',
+    times: [],
+    notify: false
+  }
 }
 </script>

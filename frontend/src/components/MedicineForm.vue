@@ -5,7 +5,7 @@
         <input v-model="form.name" placeholder="薬名" class="border w-full p-1" />
       </div>
       <div>
-        <select v-model="form.amount" class="border w-full p-1">
+        <select v-model="form.dosage" class="border w-full p-1">
           <option disabled value="">分量を選択</option>
           <option>1錠</option>
           <option>1/2錠</option>
@@ -29,7 +29,7 @@
       <ul class="space-y-2 mt-2">
         <li v-for="(m, index) in medicines" :key="index" class="border p-2 rounded">
           <div><strong>薬名:</strong> {{ m.name }}</div>
-          <div><strong>分量:</strong> {{ m.amount }}</div>
+          <div><strong>分量:</strong> {{ m.dosage }}</div>
           <div><strong>タイミング:</strong> {{ m.times.join(', ') }}</div>
           <div><strong>通知:</strong> {{ m.notify ? 'ON' : 'OFF' }}</div>
         </li>
@@ -43,7 +43,8 @@ import { ref } from 'vue'
 
 const form = ref({
   name: '',
-  amount: '',
+  dosage: '',
+  pet_id: 1,
   timing: [],
   notify: false
 })

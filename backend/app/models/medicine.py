@@ -1,10 +1,14 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.database import Base
+from datetime import datetime
 
 class Medicine(Base):
     __tablename__ = "medicines"
 
     id = Column(Integer, primary_key=True, index=True)
+    pet_id = Column(Integer, nullable=False)
     name = Column(String, nullable=False)
     dosage = Column(String, nullable=True)
     timing = Column(String, nullable=True)
+    notify = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)

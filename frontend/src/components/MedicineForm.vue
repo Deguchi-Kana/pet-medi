@@ -13,9 +13,9 @@
         </select>
       </div>
       <div>
-        <label><input type="checkbox" v-model="form.times" value="朝" /> 朝</label>
-        <label><input type="checkbox" v-model="form.times" value="昼" /> 昼</label>
-        <label><input type="checkbox" v-model="form.times" value="夜" /> 夜</label>
+        <label><input type="checkbox" v-model="form.timing" value="朝" /> 朝</label>
+        <label><input type="checkbox" v-model="form.timing" value="昼" /> 昼</label>
+        <label><input type="checkbox" v-model="form.timing" value="夜" /> 夜</label>
       </div>
       <div>
         <label><input type="checkbox" v-model="form.notify" /> 通知ON</label>
@@ -30,7 +30,7 @@
         <li v-for="(m, index) in medicines" :key="index" class="border p-2 rounded">
           <div><strong>薬名:</strong> {{ m.name }}</div>
           <div><strong>分量:</strong> {{ m.dosage }}</div>
-          <div><strong>タイミング:</strong> {{ m.times.join(', ') }}</div>
+          <div><strong>タイミング:</strong> {{ m.timing.join(', ') }}</div>
           <div><strong>通知:</strong> {{ m.notify ? 'ON' : 'OFF' }}</div>
         </li>
       </ul>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 
 const form = ref({
   name: '',
@@ -51,6 +51,13 @@ const form = ref({
 
 const medicines = ref([])
 
+// 薬の一覧取得
+const fetchMedicines = async () => {
+  const response = await fetch('http://localhost:8000/medicines')
+  medicines.value = await response.json()
+}
+
+// 薬の登録
 const submitForm = async () => {
   try {
     const response = await fetch('http://localhost:8000/medicines', {
@@ -71,4 +78,9 @@ const submitForm = async () => {
     alert('登録に失敗しました')
   }
 }
+
+onMounted(() => {
+  fetchMedicines()
+})
+
 </script>

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, Body
+from fastapi import FastAPI, Depends, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from app.schemas import MedicineCreate
@@ -57,6 +57,16 @@ def create_medicine(medicine: MedicineCreate = Body(...), db: Session = Depends(
         notify=db_medicine.notify,
         timing=db_medicine.timing.split(",") if db_medicine.timing else [],
     )
+
+# 薬の削除
+@app.delete("/medicines/{medicine_id}")
+def delete_medicine(medicine_id: int, db: Session = Depends(get_db)):
+    medicine = db.query(Medicine).filter(Medicine.id == medicine_id).first()
+    if not medicine:
+        raise HTTPException(status_code=404, detail="薬が見つかりません")
+    db.delete(medicine)
+    db.commit()
+    return {"message": "削除完了！"}
 
 # CORS設定
 app.add_middleware(

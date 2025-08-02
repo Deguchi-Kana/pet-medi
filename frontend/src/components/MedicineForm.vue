@@ -32,6 +32,7 @@
           <div><strong>分量:</strong> {{ m.dosage }}</div>
           <div><strong>タイミング:</strong> {{ m.timing.join(', ') }}</div>
           <div><strong>通知:</strong> {{ m.notify ? 'ON' : 'OFF' }}</div>
+          <button @click="deleteMedicine(m.id)" class="bg-red-500 text-white px-4 py-1">削除</button>
         </li>
       </ul>
     </div>
@@ -76,6 +77,22 @@ const submitForm = async () => {
   } catch (error) {
     console.error(error)
     alert('登録に失敗しました')
+  }
+}
+
+// 薬の削除
+const deleteMedicine = async (id) =>
+{
+  try {
+    const response = await fetch(`http://localhost:8000/medicines/${id}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) throw new Error('削除に失敗しました')
+    await response.json();
+    alert('削除が完了しました！')
+  } catch (error) {
+    console.error(error)
+    alert('削除に失敗しました')
   }
 }
 

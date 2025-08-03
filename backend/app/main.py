@@ -58,6 +58,27 @@ def create_medicine(medicine: MedicineCreate = Body(...), db: Session = Depends(
         timing=db_medicine.timing.split(",") if db_medicine.timing else [],
     )
 
+# 薬の更新
+@app.put("/medicines/{medicine_id}", response_model=MedicineCreate)
+def update_medicine(medicine_id: int, medicine: MedicineCreate = Body(...), db: Session = Depends(get_db)):
+    db_medicine = db.query(Medicine).filter(Medicine.id == medicine_id).first()
+    if not db_medicine:
+        raise HTTPException(status_code=404, detail="薬が見つかりません")
+    db_medicine.name = medicine.name
+    db_medicine.dosage = medicine.dosage
+    db_medicine.notify = medicine.notify
+    db_medicine.timing = ",".join(medicine.timing)
+    db.commit()
+    db.refresh(db_medicine)
+    return MedicineCreate(
+        id=db_medicine.id,
+        pet_id=db_medicine.pet_id,
+        name=db_medicine.name,
+        dosage=db_medicine.dosage,
+        notify=db_medicine.notify,
+        timing=db_medicine.timing.split(",") if db_medicine.timing else [],
+    )
+
 # 薬の削除
 @app.delete("/medicines/{medicine_id}")
 def delete_medicine(medicine_id: int, db: Session = Depends(get_db)):

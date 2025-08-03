@@ -14,7 +14,7 @@
             <option>1包</option>
           </select>
         </div>
-        <div>
+        <div class="timing-checkboxes">
           <label><input type="checkbox" v-model="form.timing" value="朝" /> 朝</label>
           <label><input type="checkbox" v-model="form.timing" value="昼" /> 昼</label>
           <label><input type="checkbox" v-model="form.timing" value="夜" /> 夜</label>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
+import {ref} from 'vue'
 
 const form = ref({
   name: '',

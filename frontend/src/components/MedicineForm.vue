@@ -3,6 +3,7 @@
     <div class="p-4 max-w-md mx-auto space-y-4">
     </div>
       <form @submit.prevent="submitForm" class="space-y-2">
+        <h2 class="text-lg font-semibold">お薬情報の登録</h2>
         <div>
           <input v-model="form.name" placeholder="薬名" class="border w-full p-1" />
         </div>

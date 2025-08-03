@@ -60,13 +60,14 @@ $button-hover: #66b17e;
         margin-top: 1rem;
       }
 
-      button {
+      .button-red {
         background-color: #f87171;
         margin-top: 0.5rem;
+      }
 
-        &:hover {
-          background-color: #ef4444;
-        }
+      .button-orange {
+        background-color: #ffa07a;
+        margin-top: 0.5rem;
       }
     }
   }

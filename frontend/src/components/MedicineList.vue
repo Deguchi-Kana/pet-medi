@@ -8,7 +8,8 @@
           <div><strong>分量:</strong> {{ m.dosage }}</div>
           <div><strong>タイミング:</strong> {{ m.timing.join(', ') }}</div>
           <div><strong>通知:</strong> {{ m.notify ? 'ON' : 'OFF' }}</div>
-          <button @click="deleteMedicine(m.id)" class="bg-red-500 text-white px-4 py-1">削除</button>
+          <button @click="editMedicine(m.id)" class="button-orange">編集</button>
+          <button @click="deleteMedicine(m.id)" class="button-red">削除</button>
         </li>
       </ul>
     </div>

@@ -1,9 +1,9 @@
 <script setup>
-
+import CalendarView from "../components/CalendarView.vue";
 </script>
 
 <template>
-  <h2>ペットの投薬カレンダー</h2>
+  <CalendarView></CalendarView>
 </template>
 
 <style scoped>

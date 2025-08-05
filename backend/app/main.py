@@ -30,7 +30,8 @@ def get_medicines(db: Session = Depends(get_db)):
             notify=m.notify,
             timing=m.timing.split(",") if m.timing else [],
             pet_id=m.pet_id,
-            created_at=m.created_at
+            start_date=m.start_date,
+            duration_days=m.duration_days,
         ))
     return result
 
@@ -72,6 +73,8 @@ def update_medicine(medicine_id: int, medicine: MedicineCreate = Body(...), db: 
     db_medicine.dosage = medicine.dosage
     db_medicine.notify = medicine.notify
     db_medicine.timing = ",".join(medicine.timing)
+    db_medicine.start_date = medicine.start_date
+    db_medicine.duration_days = medicine.duration_days
     db.commit()
     db.refresh(db_medicine)
     return MedicineCreate(
@@ -81,6 +84,8 @@ def update_medicine(medicine_id: int, medicine: MedicineCreate = Body(...), db: 
         dosage=db_medicine.dosage,
         notify=db_medicine.notify,
         timing=db_medicine.timing.split(",") if db_medicine.timing else [],
+        start_date=db_medicine.start_date,
+        duration_days=db_medicine.duration_days,
     )
 
 # 薬の削除

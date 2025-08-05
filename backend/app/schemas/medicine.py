@@ -11,6 +11,8 @@ class MedicineOut(BaseModel):
     dosage: str
     timing: List[str]
     notify: bool
+    start_date: Optional[date]
+    duration_days: Optional[int]
 
     class Config:
         from_attributes = True

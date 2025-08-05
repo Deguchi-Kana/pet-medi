@@ -42,7 +42,9 @@ def create_medicine(medicine: MedicineCreate = Body(...), db: Session = Depends(
         dosage=medicine.dosage,
         notify=medicine.notify,
         timing=",".join(medicine.timing),
-        pet_id=medicine.pet_id
+        pet_id=medicine.pet_id,
+        start_date=medicine.start_date,
+        duration_days=medicine.duration_days,
     )
     print("db_medicineオブジェクト:", db_medicine)
     db.add(db_medicine)
@@ -56,6 +58,8 @@ def create_medicine(medicine: MedicineCreate = Body(...), db: Session = Depends(
         dosage=db_medicine.dosage,
         notify=db_medicine.notify,
         timing=db_medicine.timing.split(",") if db_medicine.timing else [],
+        start_date=db_medicine.start_date,
+        duration_days=db_medicine.duration_days,
     )
 
 # 薬の更新

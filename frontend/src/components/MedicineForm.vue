@@ -12,6 +12,8 @@
             <option disabled value="">分量を選択</option>
             <option>1錠</option>
             <option>1/2錠</option>
+            <option>1/3錠</option>
+            <option>1/4錠</option>
             <option>1包</option>
           </select>
         </div>
@@ -22,6 +24,13 @@
         </div>
         <div>
           <label><input type="checkbox" v-model="form.notify" /> 通知ON</label>
+        </div>
+        <div>
+          <label for="start-date">開始日</label>
+          <input type="date" id="start-date" v-model="form.start_date" />
+        </div>
+        <div>
+          <input type="number" id="duration" placeholder="日数" v-model="form.duration_days" />日分
         </div>
         <button type="submit" class="bg-blue-500 text-white px-4 py-1">登録</button>
       </form>
@@ -36,7 +45,9 @@ const form = ref({
   dosage: '',
   pet_id: 1,
   timing: [],
-  notify: false
+  notify: false,
+  start_date: '',
+  duration_days: '',
 })
 
 // 薬の登録

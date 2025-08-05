@@ -11,4 +11,7 @@ class Medicine(Base):
     dosage = Column(String, nullable=True)
     timing = Column(String, nullable=True)
     notify = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    start_date = Column(DateTime, nullable=True)
+    duration_days = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False, onupdate=datetime.utcnow)

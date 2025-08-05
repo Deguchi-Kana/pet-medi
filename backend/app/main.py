@@ -6,6 +6,7 @@ from app.schemas import MedicineOut
 from app.database import engine, get_db
 from app.models.medicine import Medicine, Base
 from app.routers import medicine
+import datetime
 
 Base.metadata.create_all(bind=engine)
 
@@ -97,6 +98,22 @@ def delete_medicine(medicine_id: int, db: Session = Depends(get_db)):
     db.delete(medicine)
     db.commit()
     return {"message": "削除完了！"}
+
+# 投薬スケジュールを取得
+@app.get("/medicines/schedule")
+def get_medicine_schedule(db: Session = Depends(get_db)):
+    medicines = db.query(Medicine).all()
+    schedule = []
+    for medicine in medicines:
+        if medicine.start_date and medicine.duration_days:
+            for i in range(medicine.duration_days):
+                day = medicine.start_date + datetime.timedelta(days=i)
+                schedule.append({
+                    "date": day.strftime("%Y-%m-%d"),
+                    "name": medicine.name,
+                    "timing": medicine.timing.split(",")
+                })
+    return schedule
 
 # CORS設定
 app.add_middleware(

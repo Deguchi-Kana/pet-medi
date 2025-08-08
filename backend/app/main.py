@@ -3,9 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from app.schemas import MedicineCreate
 from app.schemas import MedicineOut
+from app.schemas import PetOut
+from app.schemas import PetCreate
 from app.database import engine, get_db
 from app.models.medicine import Medicine, Base
+from app.models.pet import Pet, Base
 from app.routers import medicine
+from app.routers import pet
 import datetime
 
 Base.metadata.create_all(bind=engine)
@@ -114,6 +118,24 @@ def get_medicine_schedule(db: Session = Depends(get_db)):
                     "timing": medicine.timing.split(",")
                 })
     return schedule
+
+# ペットテーブルのルーターを追加
+@app.post("/pets", response_model=PetOut)
+def create_pet(pet: PetCreate=Body(...), db: Session = Depends(get_db)):
+    db_pet = Pet(
+        name=pet.name,
+        species=pet.species,
+        birthdate=pet.birthdate,
+    )
+    db.add(db_pet)
+    db.commit()
+    db.refresh(db_pet)
+    return PetOut(
+        id=db_pet.id,
+        name=db_pet.name,
+        species=db_pet.species,
+        birthdate=db_pet.birthdate,
+    )
 
 # CORS設定
 app.add_middleware(

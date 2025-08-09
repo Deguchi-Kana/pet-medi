@@ -1,17 +1,14 @@
-# backend/app/schemas/schedule.py
 from pydantic import BaseModel
-from datetime import date
 from typing import List
-from .pet import PetOut
 
-class MedicineEntry(BaseModel):
-    pet: PetOut
+class ScheduleItem(BaseModel):
+    date: str
     medicine_name: str
     timing: List[str]
-
-class ScheduleByDate(BaseModel):
-    date: date
-    entries: List[MedicineEntry]
+    pet_id: int
+    pet_name: str
+    dosage: str
+    notify: bool
 
     class Config:
-        from_attributes = True
+        orm_mode = True

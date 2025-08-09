@@ -1,0 +1,84 @@
+$main-green: #d7f0d2;
+$green-accent: #bde6ba;
+$border-color: #c7e3c2;
+$text-color: #356651;
+$button-color: #78c391;
+$button-hover: #66b17e;
+
+.pet-container {
+  background-color: $main-green;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  color: $text-color;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input,
+  select {
+    padding: 0.5rem;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  label {
+    margin-right: 1rem;
+  }
+
+  button {
+    background-color: $button-color;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $button-hover;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      background-color: white;
+      padding: 1rem;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+
+      & + li {
+        margin-top: 1rem;
+      }
+
+      .button-red {
+        background-color: #f87171;
+        margin-top: 0.5rem;
+      }
+
+      .button-orange {
+        background-color: #ffa07a;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  .timing-checkboxes {
+    display: flex;
+    gap: 1rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+  }
+}

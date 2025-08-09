@@ -119,7 +119,13 @@ def get_medicine_schedule(db: Session = Depends(get_db)):
                 })
     return schedule
 
-# ペットテーブルのルーターを追加
+# ペットの一覧取得
+@app.get("/pets", response_model=list[PetOut])
+def get_pets(db: Session = Depends(get_db)):
+    pets = db.query(Pet).all()
+    return pets
+
+# ペットの登録
 @app.post("/pets", response_model=PetOut)
 def create_pet(pet: PetCreate=Body(...), db: Session = Depends(get_db)):
     db_pet = Pet(

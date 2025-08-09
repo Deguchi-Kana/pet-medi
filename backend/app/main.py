@@ -161,6 +161,16 @@ def update_pet(pet_id: int, pet: PetCreate=Body(...), db: Session = Depends(get_
         birthdate=db_pet.birthdate,
     )
 
+# ペットの削除
+@app.delete("/pets/{pet_id}")
+def delete_pet(pet_id: int, db: Session = Depends(get_db)):
+    pet = db.query(Pet).filter(Pet.id == pet_id).first()
+    if not pet:
+        raise HTTPException(status_code=404, detail="ペットが見つかりません")
+    db.delete(pet)
+    db.commit()
+    return {"message": "削除完了！"}
+
 # CORS設定
 app.add_middleware(
     CORSMiddleware,

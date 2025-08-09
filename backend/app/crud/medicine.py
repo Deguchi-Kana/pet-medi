@@ -1,4 +1,3 @@
-# backend/app/crud/medicine.py
 from sqlalchemy.orm import Session
 from app.models.medicine import Medicine
 from app.schemas.medicine import MedicineCreate

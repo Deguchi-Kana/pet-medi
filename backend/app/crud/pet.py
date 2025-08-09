@@ -1,4 +1,3 @@
-# backend/app/crud/pet.py
 from sqlalchemy.orm import Session
 from app.models.pet import Pet
 from app.schemas.pet import PetCreate

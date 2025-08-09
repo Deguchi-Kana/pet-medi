@@ -1,4 +1,3 @@
-# backend/app/routers/medicine.py
 from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -60,7 +59,3 @@ def delete_medicine(medicine_id: int, db: Session = Depends(get_db)):
     if not medicine:
         raise HTTPException(status_code=404, detail="薬が見つかりません")
     return {"message": "削除完了！"}
-
-@router.get("/medicines/schedule")
-def get_schedule(db: Session = Depends(get_db)):
-    return crud_medicine.get_schedule(db)

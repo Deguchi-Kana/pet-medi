@@ -1,0 +1,39 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+}
+.input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.save {
+  background: #42b983;
+  color: white;
+  padding: 6px 12px;
+}
+.cancel {
+  background: #ccc;
+  padding: 6px 12px;
+}

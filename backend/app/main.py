@@ -143,6 +143,24 @@ def create_pet(pet: PetCreate=Body(...), db: Session = Depends(get_db)):
         birthdate=db_pet.birthdate,
     )
 
+# ペットの更新
+@app.put("/pets/{pet_id}", response_model=PetOut)
+def update_pet(pet_id: int, pet: PetCreate=Body(...), db: Session = Depends(get_db)):
+    db_pet = db.query(Pet).filter(Pet.id == pet_id).first()
+    if not db_pet:
+        raise HTTPException(status_code=404, detail="ペットが見つかりません")
+    db_pet.name = pet.name
+    db_pet.species = pet.species
+    db_pet.birthdate = pet.birthdate
+    db.commit()
+    db.refresh(db_pet)
+    return PetOut(
+        id=db_pet.id,
+        name=db_pet.name,
+        species=db_pet.species,
+        birthdate=db_pet.birthdate,
+    )
+
 # CORS設定
 app.add_middleware(
     CORSMiddleware,

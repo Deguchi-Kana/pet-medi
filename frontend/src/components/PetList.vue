@@ -15,23 +15,24 @@
     </div>
   </div>
 
-<!--  <edit-pet-modal-->
-<!--      v-if="showModal"-->
-<!--      :visible="showModal"-->
-<!--      :pet="selectedPet"-->
-<!--      @close="closeModal"-->
-<!--      @update="updatePet"-->
-<!--  />-->
+  <edit-pet-modal
+      v-if="showModal"
+      :visible="showModal"
+      :pet="selectedPet"
+      @close="closeModal"
+      @update="updatePet"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import EditPetModal from "./EditPetModal.vue";
 
 const pets = ref([])
 const showModal = ref(false)
 const selectedPet = ref(null)
 
-// 薬の一覧取得
+// ペットの一覧取得
 const fetchPets = async () => {
   const response = await fetch('http://localhost:8000/pets')
   pets.value = await response.json()
@@ -39,7 +40,7 @@ const fetchPets = async () => {
 
 onMounted(fetchPets)
 
-// 薬の削除
+// ペットの削除
 const deletePet = async (id) =>
 {
   try {
@@ -56,17 +57,17 @@ const deletePet = async (id) =>
   }
 }
 
-// 薬の編集モーダル表示
+// ペットの編集モーダル表示
 const editPet = (pet) => {
   selectedPet.value = { ...pet }
   showModal.value = true
 }
-// 薬の編集モーダル非表示
+// ペットの編集モーダル非表示
 const closeModal = () => {
   showModal.value = false
 }
 
-// 薬の情報更新
+// ペットの情報更新
 const updatePet = async (updated) => {
   try {
     const response = await fetch(`http://localhost:8000/pets/${updated.id}`, {

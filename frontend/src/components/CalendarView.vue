@@ -13,14 +13,14 @@ const calendarOptions = ref({
   events: []
 })
 
-// 投薬データを取得
-const fetchMedicines = async () => {
+// 投薬スケジュールを取得
+const fetchSchedule = async () => {
   try {
-    const res = await fetch('http://localhost:8000/medicines/schedule')
+    const res = await fetch('http://localhost:8000/schedule')
     const data = await res.json()
 
     calendarOptions.value.events = data.map(item => ({
-      title: `${item.name}（${item.timing.join("・")}）`,
+      title: `${item.medicine_name}（${item.timing.join("・")}）`,
       start: item.date
     }))
   } catch (error) {
@@ -29,7 +29,7 @@ const fetchMedicines = async () => {
 }
 
 onMounted(async () => {
-  await fetchMedicines()
+  await fetchSchedule()
 })
 </script>
 

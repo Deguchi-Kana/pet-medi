@@ -11,6 +11,7 @@
   "dependencies": {
     "@fullcalendar/core": "^6.1.18",
     "@fullcalendar/daygrid": "^6.1.18",
+    "@fullcalendar/interaction": "^6.1.19",
     "@fullcalendar/vue3": "^6.1.18",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine
 from app.models import medicine, pet
-from app.routers import medicine as medicine_router, pet as pet_router, schedule as schedule_router
+from app.routers import medicine as medicine_router, pet as pet_router, schedule as schedule_router, chat as chat_router
 
 medicine.Base.metadata.create_all(bind=engine)
 pet.Base.metadata.create_all(bind=engine)
@@ -22,6 +22,7 @@ app.add_middleware(
 app.include_router(medicine_router.router)
 app.include_router(pet_router.router)
 app.include_router(schedule_router.router)
+app.include_router(chat_router.router)
 
 @app.get("/")
 def root():

@@ -13,7 +13,7 @@ load_dotenv(dotenv_path=env_path)
 
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-with open("prompts/prompt.txt", "r", encoding="utf-8") as f:
+with open("prompts/pet.txt", "r", encoding="utf-8") as f:
     SYSTEM_PROMPT = f.read()
 
 class ChatRequest(BaseModel):

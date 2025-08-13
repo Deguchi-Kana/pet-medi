@@ -19,16 +19,18 @@ with open("prompts/prompt.txt", "r", encoding="utf-8") as f:
 class ChatRequest(BaseModel):
     message: str
 
+# openaiとのチャット用
 @router.post("/chat")
 async def chat(request: ChatRequest):
-    # コメントアウトしているのは本番用、開発時はモックでも良いです
-#     response = openai_client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#             {"role": "system", "content": SYSTEM_PROMPT},
-#             {"role": "user", "content": request.message},
-#         ],
-#     )
-#     return {"reply": response.choices[0].message.content}
+#     使わない時はコメントアウト〜ここから
+    response = openai_client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": request.message},
+        ],
+    )
+    return {"reply": response.choices[0].message.content}
+#     使わない時はコメントアウト〜ここまで
 
-    return {"reply": f"受け取ったメッセージ: {request.message}"}
+#     return {"reply": f"受け取ったメッセージ: {request.message}"}

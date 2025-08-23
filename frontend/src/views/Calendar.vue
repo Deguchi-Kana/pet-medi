@@ -1,9 +1,28 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import CalendarView from "../components/CalendarView.vue";
-import AiChat from "../components/AiChat.vue";
+import { ref } from 'vue'
+import CalendarView from '../components/CalendarView.vue'
+import AiChat from '../components/AiChat.vue'
 
-const todayMedicines = ref([])
+// チャットの表示/非表示を制御
+const chatEnabled = ref(false)
+
+// 今日の投薬リマインダー（サンプルデータ）
+const todayMedicines = ref([
+  {
+    id: 1,
+    name: 'サンプル薬1',
+    pet: 'ポチ',
+    time: '朝食後',
+    dosage: '1錠'
+  },
+  {
+    id: 2,
+    name: 'サンプル薬2',
+    pet: 'ミケ',
+    time: '夕食後',
+    dosage: '0.5錠'
+  }
+])
 
 // 今日の日付をフォーマット
 const formatToday = () => {
@@ -17,21 +36,21 @@ const formatToday = () => {
 }
 
 // 今日の投薬予定を取得（サンプルデータ）
-onMounted(() => {
-  // 実際の実装では、APIから今日の投薬予定を取得
-  todayMedicines.value = [
-    {
-      id: 1,
-      medicine_name: 'フィラリア薬',
-      timing: ['朝']
-    },
-    {
-      id: 2,
-      medicine_name: 'アモキシシリン',
-      timing: ['夜']
-    }
-  ]
-})
+// onMounted(() => {
+//   // 実際の実装では、APIから今日の投薬予定を取得
+//   todayMedicines.value = [
+//     {
+//       id: 1,
+//       medicine_name: 'フィラリア薬',
+//       timing: ['朝']
+//     },
+//     {
+//       id: 2,
+//       medicine_name: 'アモキシシリン',
+//       timing: ['夜']
+//     }
+//   ]
+// })
 </script>
 
 <template>
@@ -75,15 +94,21 @@ onMounted(() => {
       <!-- AIチャットセクション -->
       <section class="chat-section">
         <div class="section-header">
-          <h3 class="section-title">
-            <span class="section-icon">🤖</span>
-            AI アシスタント
-          </h3>
-          <p class="section-description">
-            投薬についての質問や相談をAIに聞いてみましょう
-          </p>
+          <div class="chat-title-toggle">
+            <h3 class="section-title">
+              <span class="section-icon">🤖</span>
+              AI チャット
+            </h3>
+            <p class="section-description">
+              投薬についての質問や相談をAIに聞いてみましょう
+            </p>
+            <label class="chat-toggle">
+              <input type="checkbox" v-model="chatEnabled" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
         </div>
-        <div class="chat-content">
+        <div v-if="chatEnabled" class="chat-content">
           <ai-chat></ai-chat>
         </div>
       </section>
@@ -102,8 +127,8 @@ onMounted(() => {
         <div v-if="todayMedicines.length > 0" class="medicine-reminders">
           <div v-for="medicine in todayMedicines" :key="medicine.id" class="reminder-item">
             <div class="reminder-info">
-              <span class="medicine-name">{{ medicine.medicine_name }}</span>
-              <span class="timing-badge">{{ medicine.timing.join(', ') }}</span>
+              <span class="medicine-name">{{ medicine.name }}</span>
+              <span class="timing-badge">{{ medicine.time }}</span>
             </div>
             <div class="reminder-status">
               <span class="status-dot"></span>
@@ -316,6 +341,94 @@ onMounted(() => {
   text-align: center;
   color: var(--gray-500);
   padding: var(--spacing-8);
+}
+
+/* チャットセクション */
+.chat-section {
+  background: var(--white);
+  border: 1px solid var(--border-green);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-title-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  color: white;
+}
+
+.section-title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.section-description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+  flex: 1;
+}
+
+/* チャットトグルスイッチ */
+.chat-toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    &:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--white);
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+  }
+
+  input:checked + .toggle-slider {
+    background-color: var(--primary-green);
+    border-color: var(--accent-green);
+  }
+
+  input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+  }
+}
+
+.chat-content {
+  padding: var(--spacing-4);
 }
 
 /* レスポンシブデザイン */

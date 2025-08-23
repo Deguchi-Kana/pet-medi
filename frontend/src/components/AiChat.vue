@@ -1,13 +1,5 @@
 <template>
   <div class="ai-chat-container">
-    <div class="chat-header">
-      <h2>AIチャット</h2>
-      <label class="toggle">
-        <input type="checkbox" v-model="enabled" />
-        <span class="slider"></span>
-      </label>
-    </div>
-
     <div class="chat-window">
       <div v-for="(msg, index) in displayedMessages" :key="index"
            :class="['chat-bubble', msg.role]">
@@ -16,13 +8,13 @@
       <div v-if="loading" class="chat-bubble ai loading">...</div>
     </div>
 
-    <form @submit.prevent="sendMessage">
+    <form @submit.prevent="sendMessage" class="chat-form">
       <textarea
           v-model="userMessage"
           placeholder="メッセージを入力（Cmd/Ctrl + Enterで送信）"
           @keydown.enter.prevent="handleEnter($event)"
       ></textarea>
-      <button type="submit" :disabled="!enabled || loading">送信</button>
+      <button type="submit" :disabled="loading">送信</button>
     </form>
   </div>
 </template>

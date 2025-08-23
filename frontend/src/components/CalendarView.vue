@@ -37,30 +37,59 @@ const tooltip = ref({
   },
 })
 
+// 色のキャッシュ（同じペットIDには常に同じ色を返す）
+const colorCache = new Map()
+
+// 美しい色のパレット（緑ベースと相性のいい色）
+const beautifulColors = [
+  '#3b82f6',  // 青
+  '#8b5cf6',  // 紫
+  '#06b6d4',  // シアン
+  '#f59e0b',  // オレンジ
+  '#ef4444',  // 赤
+  '#10b981',  // 緑
+  '#059669',  // 深緑
+  '#7c3aed',  // 深紫
+  '#ec4899',  // ピンク
+  '#84cc16',  // ライム
+  '#f97316',  // オレンジ
+  '#0891b2',  // シアン
+  '#7c2d12',  // 茶色
+  '#dc2626',  // 赤
+  '#16a34a',  // 緑
+  '#15803d',  // 深緑
+  '#9333ea',  // 紫
+  '#be185d',  // ピンク
+  '#ca8a04',  // 黄色
+  '#0d9488',  // ティール
+]
+
+// ランダムな色を生成する関数
+const generateRandomColor = () => {
+  // 美しい色パレットからランダムに選択
+  const randomIndex = Math.floor(Math.random() * beautifulColors.length)
+  return beautifulColors[randomIndex]
+}
+
 // ペットIDごとの色を生成する関数
-const generatePetColors = (petCount) => {
-  const colors = [
-    '#3b82f6',  // 青
-    '#8b5cf6',  // 紫
-    '#06b6d4',  // シアン
-    '#f59e0b',  // オレンジ
-    '#ef4444',  // 赤
-    '#10b981',  // 緑
-    '#059669',  // 深緑
-    '#7c3aed',  // 深紫
-    '#ec4899',  // ピンク
-    '#84cc16',  // ライム
-    '#f97316',  // オレンジ
-    '#06b6d4',  // シアン
-    '#8b5cf6',  // 紫
-    '#3b82f6',  // 青
-    '#ef4444',  // 赤
-  ]
-  
+const generatePetColors = (pets) => {
   const petColors = {}
-  for (let i = 0; i < petCount; i++) {
-    petColors[i + 1] = colors[i % colors.length]
-  }
+  
+  // 各ペットにランダムな色を割り当て（既存の色がある場合は再利用）
+  pets.forEach(pet => {
+    if (colorCache.has(pet.id)) {
+      // 既存の色を再利用
+      petColors[pet.id] = colorCache.get(pet.id)
+    } else {
+      // 新しい色を生成してキャッシュに保存
+      const newColor = generateRandomColor()
+      colorCache.set(pet.id, newColor)
+      petColors[pet.id] = newColor
+    }
+  })
+  
+  console.log('生成された色マッピング:', petColors) // デバッグ用
+  console.log('色キャッシュ:', Object.fromEntries(colorCache)) // デバッグ用
   return petColors
 }
 
@@ -70,16 +99,32 @@ const petColors = ref({})
 
 const fetchPets = async () => {
   try {
+    console.log('ペット情報の取得を開始...') // デバッグ用
     const response = await fetch('http://localhost:8000/pets')
+    console.log('ペットAPIレスポンス:', response) // デバッグ用
+    
     if (response.ok) {
-      pets.value = await response.json()
+      const petsData = await response.json()
+      console.log('取得したペット情報（生データ）:', petsData) // デバッグ用
+      
+      // 各ペットのIDを確認
+      petsData.forEach(pet => {
+        console.log(`ペット: ${pet.name}, ID: ${pet.id}`) // デバッグ用
+      })
+      
+      pets.value = petsData
+      console.log('取得したペット情報:', pets.value) // デバッグ用
+      console.log('ペット数:', pets.value.length) // デバッグ用
+      
       // ペット数に応じて色を生成
-      petColors.value = generatePetColors(pets.value.length)
+      petColors.value = generatePetColors(pets.value)
       console.log('ペット情報取得完了:', pets.value) // デバッグ用
       console.log('色マッピング生成完了:', petColors.value) // デバッグ用
       
       // ペット情報取得完了後にスケジュールを取得
       await fetchSchedule()
+    } else {
+      console.error('ペットAPIエラー:', response.status, response.statusText) // デバッグ用
     }
   } catch (error) {
     console.error('ペット情報の取得に失敗しました:', error)
@@ -88,8 +133,22 @@ const fetchPets = async () => {
 
 // ペットIDに応じた色を取得
 const getPetColor = (petId) => {
-  if (!petId) return '#6b7280' // デフォルトはグレー
-  return petColors.value[petId] || '#6b7280'
+  console.log(`getPetColor呼び出し: petId=${petId}, petColors=`, petColors.value) // デバッグ用
+  
+  if (!petId) {
+    console.log('petIdが未定義、デフォルト色を返す') // デバッグ用
+    return '#6b7280' // デフォルトはグレー
+  }
+  
+  const color = petColors.value[petId]
+  console.log(`petId ${petId} の色: ${color}`) // デバッグ用
+  
+  if (!color) {
+    console.log(`petId ${petId} の色が見つからない、デフォルト色を返す`) // デバッグ用
+    return '#6b7280'
+  }
+  
+  return color
 }
 
 // ツールチップ表示
@@ -140,8 +199,18 @@ const fetchSchedule = async () => {
     console.log('ペット色マッピング:', petColors.value) // デバッグ用
 
     calendarOptions.value.events = data.map(item => {
-      const petColor = getPetColor(item.pet_id)
-      console.log(`イベント: ${item.medicine_name}, ペットID: ${item.pet_id}, 色: ${petColor}`) // デバッグ用
+      console.log(`処理中のアイテム:`, item) // デバッグ用
+      console.log(`item.pet_id: ${item.pet_id}, 型: ${typeof item.pet_id}`) // デバッグ用
+      
+      // pet_idを数値に変換
+      let petId = item.pet_id
+      if (typeof petId === 'string') {
+        petId = parseInt(petId, 10)
+        console.log(`pet_idを数値に変換: ${item.pet_id} → ${petId}`) // デバッグ用
+      }
+      
+      const petColor = getPetColor(petId)
+      console.log(`イベント: ${item.medicine_name}, ペットID: ${petId}, 色: ${petColor}`) // デバッグ用
       
       // timingフィールドの安全な処理
       let timing = []
@@ -165,12 +234,14 @@ const fetchSchedule = async () => {
         extendedProps: {
           medicine_name: item.medicine_name,
           pet_name: item.pet_name,
-          pet_id: item.pet_id,
+          pet_id: petId,
           dosage: item.dosage,
           timing: timing,
         },
       }
     })
+    
+    console.log('生成されたカレンダーイベント:', calendarOptions.value.events) // デバッグ用
   } catch (error) {
     console.error('カレンダーデータの取得に失敗:', error)
   }

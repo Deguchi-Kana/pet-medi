@@ -22,7 +22,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-const enabled = ref(false)
 const loading = ref(false)
 const userMessage = ref('')
 const messages = ref([])
@@ -32,32 +31,24 @@ const displayedMessages = computed(() => messages.value.slice(-10))
 
 // openaiに送信
 const sendMessage = async () => {
-  if (!userMessage.value.trim() || !enabled.value) return
+  if (!userMessage.value.trim()) return
   messages.value.push({ role: 'user', content: userMessage.value })
   const text = userMessage.value
   userMessage.value = ''
   loading.value = true
 
-  if (enabled.value) {
-    try {
-      const res = await fetch('http://localhost:8000/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text })
-      })
-      const data = await res.json()
-      messages.value.push({ role: 'ai', content: data.reply })
-    } catch (e) {
-      messages.value.push({ role: 'ai', content: 'エラーが発生しました。' })
-    } finally {
-      loading.value = false
-    }
-  } else {
-    // モック
-    setTimeout(() => {
-      messages.value.push({ role: 'ai', content: `受け取ったメッセージ: ${text}` })
-      loading.value = false
-    }, 500)
+  try {
+    const res = await fetch('http://localhost:8000/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text })
+    })
+    const data = await res.json()
+    messages.value.push({ role: 'ai', content: data.reply })
+  } catch (e) {
+    messages.value.push({ role: 'ai', content: 'エラーが発生しました。' })
+  } finally {
+    loading.value = false
   }
 }
 

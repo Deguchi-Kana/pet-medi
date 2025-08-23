@@ -1,39 +1,220 @@
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
 }
+
 .modal-content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  width: 300px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-green);
+  animation: modalSlideIn 0.3s ease-out;
 }
-.input {
-  width: 100%;
-  padding: 6px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
-.checkbox-group {
+
+.modal-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--border-green);
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
 }
-.buttons {
+
+.modal-title {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  align-items: center;
+  gap: var(--spacing-3);
+  color: var(--gray-800);
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
 }
-.save {
-  background: #42b983;
-  color: white;
-  padding: 6px 12px;
+
+.modal-icon {
+  font-size: var(--font-size-2xl);
 }
-.cancel {
-  background: #ccc;
-  padding: 6px 12px;
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  color: var(--gray-600);
+  padding: var(--spacing-2);
+  border-radius: var(--radius);
+  transition: var(--transition);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--gray-800);
+}
+
+.modal-body {
+  padding: var(--spacing-6);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: var(--font-size-base);
+}
+
+.label-icon {
+  font-size: var(--font-size-lg);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: var(--spacing-3);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  transition: var(--transition);
+  background: var(--white);
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgb(74 222 128 / 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--gray-200);
+}
+
+.save-btn,
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 120px;
+}
+
+.save-btn {
+  background: var(--primary-green);
+  color: var(--white);
+}
+
+.save-btn:hover {
+  background: var(--primary-green-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.cancel-btn {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.cancel-btn:hover {
+  background: var(--gray-300);
+  transform: translateY(-1px);
+}
+
+.save-icon,
+.cancel-icon {
+  font-size: var(--font-size-lg);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: var(--spacing-4);
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: var(--spacing-4);
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+
+  .save-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+
+  .edit-form {
+    gap: var(--spacing-4);
+  }
 }

@@ -1,92 +1,11 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
+.medicine-form-container {
+  width: 100%;
 }
 
-.modal-content {
-  background: var(--white);
-  border-radius: var(--radius-xl);
-  max-width: 600px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-green);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-6);
-  border-bottom: 1px solid var(--border-green);
-  background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
-}
-
-.modal-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-3);
-  color: var(--gray-800);
-  margin: 0;
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-}
-
-.modal-icon {
-  font-size: var(--font-size-2xl);
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: var(--font-size-xl);
-  cursor: pointer;
-  color: var(--gray-600);
-  padding: var(--spacing-2);
-  border-radius: var(--radius);
-  transition: var(--transition);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.close-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: var(--gray-800);
-}
-
-.modal-body {
-  padding: var(--spacing-6);
-}
-
-.edit-form {
+.medicine-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-5);
+  gap: var(--spacing-6);
 }
 
 .form-group {
@@ -117,7 +36,6 @@
   font-size: var(--font-size-base);
   transition: var(--transition);
   background: var(--white);
-  font-family: inherit;
 }
 
 .form-input:focus,
@@ -131,6 +49,7 @@
 .form-textarea {
   resize: vertical;
   min-height: 80px;
+  font-family: inherit;
 }
 
 .form-help {
@@ -267,60 +186,74 @@
   border-top: 1px solid var(--gray-200);
 }
 
-.save-btn,
-.cancel-btn {
+.submit-btn {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-3) var(--spacing-6);
+  padding: var(--spacing-4);
   font-size: var(--font-size-base);
-  font-weight: 500;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: var(--transition);
-  min-width: 120px;
+  font-weight: 600;
 }
 
-.save-btn {
-  background: var(--primary-green);
-  color: var(--white);
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-.save-btn:hover {
-  background: var(--primary-green-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-.cancel-btn {
-  background: var(--gray-200);
-  color: var(--gray-700);
-}
-
-.cancel-btn:hover {
-  background: var(--gray-300);
-  transform: translateY(-1px);
-}
-
-.save-icon,
-.cancel-icon {
+.submit-icon,
+.reset-icon {
   font-size: var(--font-size-lg);
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 成功メッセージ */
+.success-message {
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  color: var(--white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-top: var(--spacing-6);
+  animation: slideIn 0.3s ease-out;
+}
+
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-3);
+}
+
+.success-title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-2);
+  font-weight: 600;
+}
+
+.success-text {
+  font-size: var(--font-size-base);
+  opacity: 0.9;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    margin: var(--spacing-4);
-  }
-
-  .modal-header,
-  .modal-body {
-    padding: var(--spacing-4);
-  }
-
   .timing-checkboxes {
     flex-direction: column;
     gap: var(--spacing-3);
@@ -331,9 +264,8 @@
     gap: var(--spacing-3);
   }
 
-  .save-btn,
-  .cancel-btn {
-    width: 100%;
+  .submit-btn {
+    order: 1;
   }
 
   .duration-input {
@@ -348,14 +280,12 @@
 }
 
 @media (max-width: 480px) {
-  .modal-content {
-    width: 100%;
-    margin: 0;
-    border-radius: 0;
-    max-height: 100vh;
+  .medicine-form {
+    gap: var(--spacing-4);
   }
 
-  .edit-form {
-    gap: var(--spacing-4);
+  .form-actions {
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
   }
 }

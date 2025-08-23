@@ -1,0 +1,336 @@
+.medicine-container {
+  width: 100%;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.list-title {
+  color: var(--gray-800);
+  margin: 0;
+  font-size: var(--font-size-lg);
+}
+
+.medicine-count {
+  background: var(--primary-green);
+  color: var(--white);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background: var(--primary-green);
+  color: var(--white);
+  border: none;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.add-btn:hover {
+  background: var(--primary-green-dark);
+  transform: translateY(-1px);
+}
+
+.add-icon {
+  font-size: var(--font-size-sm);
+}
+
+.medicines-grid {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.medicine-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  background: var(--white);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  transition: var(--transition);
+}
+
+.medicine-card:hover {
+  border-color: var(--primary-green);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.medicine-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--secondary-green) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.medicine-emoji {
+  font-size: 2rem;
+}
+
+.medicine-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.medicine-name {
+  color: var(--gray-800);
+  margin: 0 0 var(--spacing-2) 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.medicine-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.medicine-dosage {
+  background: var(--gray-100);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius);
+  display: inline-block;
+  width: fit-content;
+}
+
+.medicine-timing {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.timing-label {
+  color: var(--gray-500);
+  font-size: var(--font-size-xs);
+}
+
+.timing-tags {
+  display: flex;
+  gap: var(--spacing-1);
+  flex-wrap: wrap;
+}
+
+.timing-tag {
+  background: var(--primary-green-light);
+  color: var(--primary-green-dark);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.medicine-notify {
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  width: fit-content;
+}
+
+.notify-on {
+  background: var(--success);
+  color: var(--white);
+}
+
+.notify-off {
+  background: var(--gray-200);
+  color: var(--gray-600);
+}
+
+.medicine-actions {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.edit-btn {
+  background: var(--warning);
+  color: var(--white);
+}
+
+.edit-btn:hover {
+  background: #d97706;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: var(--error);
+  color: var(--white);
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.action-icon {
+  font-size: var(--font-size-sm);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-12);
+  color: var(--gray-500);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-4);
+}
+
+.empty-title {
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-2);
+  font-size: var(--font-size-lg);
+}
+
+.empty-description {
+  margin-bottom: var(--spacing-6);
+  line-height: 1.6;
+}
+
+.empty-action-btn {
+  background: var(--primary-green);
+  color: var(--white);
+  border: none;
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.empty-action-btn:hover {
+  background: var(--primary-green-dark);
+  transform: translateY(-1px);
+}
+
+/* モーダルスタイル */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.modal-header h4 {
+  margin: 0;
+  color: var(--gray-800);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  color: var(--gray-500);
+  padding: var(--spacing-1);
+}
+
+.close-btn:hover {
+  color: var(--gray-700);
+}
+
+.modal-body {
+  padding: var(--spacing-6);
+}
+
+.modal-footer {
+  padding: var(--spacing-4) var(--spacing-6);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .list-header {
+    flex-direction: column;
+    gap: var(--spacing-4);
+    align-items: stretch;
+  }
+
+  .add-btn {
+    justify-content: center;
+  }
+
+  .medicine-card {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-3);
+  }
+
+  .medicine-actions {
+    justify-content: center;
+  }
+
+  .medicine-details {
+    align-items: center;
+  }
+
+  .medicine-timing {
+    flex-direction: column;
+    gap: var(--spacing-1);
+  }
+}

@@ -24,3 +24,17 @@ def get_schedule(db: Session):
                 "notify": med.notify,
             })
     return schedule
+
+def get_schedule_by_pet_id(db: Session, pet_id: int):
+    medicines = db.query(Medicine).filter(Medicine.pet_id == pet_id).all()
+    schedule = []
+    for medicine in medicines:
+        if medicine.start_date and medicine.duration_days:
+            for i in range(medicine.duration_days):
+                day = medicine.start_date + datetime.timedelta(days=i)
+                schedule.append({
+                    "date": day.strftime("%Y-%m-%d"),
+                    "name": medicine.name,
+                    "timing": medicine.timing.split(",")
+                })
+    return  sorted(schedule, key=lambda x: x["date"])

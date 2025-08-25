@@ -32,3 +32,7 @@ def delete_pet(db: Session, pet_id: int):
         db.delete(pet)
         db.commit()
     return pet
+
+def get_pet_id_by_name(db: Session, name: str):
+    pet = db.query(Pet).filter(Pet.name == name).first()
+    return pet.id if pet else None
